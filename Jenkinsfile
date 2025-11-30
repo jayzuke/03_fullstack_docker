@@ -10,26 +10,28 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker compose build'
+                sh '''
+                    docker compose build
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker compose down || true'
-                sh 'docker compose up -d'
+                sh '''
+                    docker compose down
+                    docker compose up -d
+                '''
             }
         }
 
         stage('Health Check') {
             steps {
-                sh 'sleep 5'
-                sh 'curl -f http://localhost:3000/items'
+                sh '''
+                    sleep 5
+                    curl -f http://localhost:8080 || exit 1
+                '''
             }
         }
-    }
-
-    triggers {
-        pollSCM('* * * * *')   // ตรวจ Git ทุก 1 นาที
     }
 }
