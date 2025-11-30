@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                    docker compose build
+                    docker-compose build
                 '''
             }
         }
@@ -19,8 +19,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    docker compose down
-                    docker compose up -d
+                    docker-compose down
+                    docker-compose up -d
                 '''
             }
         }
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 sh '''
                     sleep 5
-                    curl -f http://localhost:8080 || exit 1
+                    curl -f http://localhost:8081 || exit 1
                 '''
             }
         }
